@@ -9,7 +9,7 @@ public class HeroDamage : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        hp.value = 100;
+        //hp.value = 100;
     }
 
     // Update is called once per frame
@@ -17,9 +17,14 @@ public class HeroDamage : MonoBehaviour
     {
                 
     }
-    private void OnCollisionStay(Collision collision)
+
+    public void Damage()
     {
-        if (collision.gameObject.tag == "damageObject")
+        hp.value -= 1;
+    }
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.tag == "damageObject")
         {
             hp.value -= 1;
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Console : MonoBehaviour
 {
@@ -11,6 +12,10 @@ public class Console : MonoBehaviour
     [SerializeField] GameObject help;
     [SerializeField] GameObject tpPointPrefad;
     [SerializeField] GameObject player;
+    [SerializeField] Slider hp;
+
+    [SerializeField] float regenAmount = 10f; // количество единиц здоровья, восстанавливаемых за один кадр
+    [SerializeField] float regenDelay = 0.1f; // задержка между восстановлением здоровья в секундах
 
     private bool active;
     private GameObject tpPoint;
@@ -37,7 +42,6 @@ public class Console : MonoBehaviour
         if (command == "/hide")
         {
             Debug.Log("Хайд");
-            Activity(false);
             GameObject[] scene = GameObject.FindObjectsOfType<GameObject>();
             foreach (GameObject gameObject in scene)
             {
@@ -47,7 +51,7 @@ public class Console : MonoBehaviour
                 }
             }
         }
-        if (command == "/show")
+        else if (command == "/show")
         {
             Debug.Log("Шов");
             GameObject[] scene = Resources.FindObjectsOfTypeAll<GameObject>();
@@ -55,21 +59,24 @@ public class Console : MonoBehaviour
             {
                 gameObject.SetActive(true);
             }
-            Activity(false);
         }
-        if (command == "/revive")
+        else if (command == "/revive")
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 
-        if (command == "/create tp point")
+        else if (command == "/create tp point")
         {
             tpPoint = Instantiate(tpPointPrefad, player.transform.position, Quaternion.identity, null);
         }
-        if (command == "/tp to point")
+        else if (command == "/tp to point")
         {
             player.transform.position = tpPoint.transform.position;
         }
+        else if (command == "/hp regen")
+        {
+            StartCoroutine(RegenHealth());
+        }
+        Activity(false);
     }
-
     private void Activity(bool active1)
     {
         if (active1)
@@ -85,8 +92,20 @@ public class Console : MonoBehaviour
             active = false;
             help.SetActive(false);
             panel.SetActive(false);
-            inputField.SetActive(false); 
+            inputField.SetActive(false);
             Time.timeScale = 1f;
+        }
+    }
+    private IEnumerator RegenHealth()
+    {
+        float maxHealth = 100f; // максимальное значение здоровья
+        float currentHealth = hp.value; // текущее значение здоровья
+
+        while (currentHealth < maxHealth)
+        {
+            currentHealth += regenAmount;
+            hp.value = currentHealth;
+            yield return new WaitForSeconds(regenDelay);
         }
     }
 }
