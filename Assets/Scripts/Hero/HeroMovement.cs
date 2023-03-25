@@ -82,7 +82,7 @@ public class HeroMovement : MonoBehaviour
     {
         if (collision.gameObject.tag == "killObject")
         {
-            animator.SetBool("IsDeath", true);
+            animator.SetBool("IsDead", true);
         }
         
     }
