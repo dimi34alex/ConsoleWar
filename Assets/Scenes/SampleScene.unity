@@ -1054,7 +1054,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 0
+  m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -1438,6 +1438,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1895811437}
   - component: {fileID: 1895811436}
+  - component: {fileID: 1895811438}
   m_Layer: 0
   m_Name: Circle (2)
   m_TagString: killObject
@@ -1512,6 +1513,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &1895811438
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1895811435}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.50000006
 --- !u!1 &1924867416
 GameObject:
   m_ObjectHideFlags: 0
@@ -1699,7 +1716,8 @@ MonoBehaviour:
   panel: {fileID: 1326975545}
   inputField: {fileID: 862059198}
   help: {fileID: 809084851}
-  name: 
+  tpPointPrefad: {fileID: 670061109937343436, guid: 3898d4aab40460a4181e7a98a7ba974b, type: 3}
+  player: {fileID: 999747021}
 --- !u!114 &2051396936
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -26,12 +26,12 @@ public class HeroMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
-    
+
     void FixedUpdate()
     {
         CheckGroud();
         Move();
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        if (Input.GetKeyDown(KeyCode.Space) && Input.anyKey && isGrounded)
         {
             Jump();
             animator.SetBool("IsJumping", false);

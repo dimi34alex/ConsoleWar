@@ -9,10 +9,11 @@ public class Console : MonoBehaviour
     [SerializeField] GameObject panel;
     [SerializeField] GameObject inputField;
     [SerializeField] GameObject help;
+    [SerializeField] GameObject tpPointPrefad;
+    [SerializeField] GameObject player;
 
-    public string name;
-    private string command;
     private bool active;
+    private GameObject tpPoint;
     // Start is called before the first frame update
     void Start()
     {
@@ -59,10 +60,13 @@ public class Console : MonoBehaviour
         if (command == "/revive")
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 
-        if (command.StartsWith("/create tp point"))
+        if (command == "/create tp point")
         {
-            name = command.Split(' ')[3];
-            //GameObject.CreatePrimitive()
+            tpPoint = Instantiate(tpPointPrefad, player.transform.position, Quaternion.identity, null);
+        }
+        if (command == "/tp to point")
+        {
+            player.transform.position = tpPoint.transform.position;
         }
     }
 
