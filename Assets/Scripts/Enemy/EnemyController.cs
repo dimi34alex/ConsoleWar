@@ -16,7 +16,8 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        RaycastHit2D hit;
+        //Ray ray = new Ray(transform.position, )
     }
     private void Patrol()
     {
