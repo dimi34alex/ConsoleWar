@@ -50,7 +50,7 @@ public class EnemyController : MonoBehaviour
     }
     private void Patrol()
     {
-        transform.position = Vector3.MoveTowards(transform.position, currentTarget, speed * Time.deltaTime);
+        transform.position = Vector3.Lerp(transform.position, currentTarget, speed * Time.deltaTime);
         if (Vector3.Distance(transform.position, currentTarget) < 0.1f)
         {
             currentTargetIndex = (currentTargetIndex + 1) % points.Length;
