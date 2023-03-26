@@ -4,23 +4,57 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    [SerializeField] Animator animator;
-    [SerializeField] GameObject[] points;
-    [SerializeField] GameObject vision;
-    // Start is called before the first frame update
-    void Start()
-    {
-        animator.SetBool("IsMoving", false);
-    }
+    public Transform[] points;
+    public float speed;
+    public float chasingRange;
+    public float shootingDelay;
+    public Transform shootingPoint;
+    public AudioClip shootSound;
+    public Animator animator;
+    public GameObject laserPrefab;
+    public float timerBreaking;
 
-    // Update is called once per frame
-    void Update()
+
+    private float timer;
+    private bool breaking = false;
+    private Vector3 currentTarget;
+    private int currentTargetIndex = 0; // индекс текущей цели
+    private void Start()
     {
-        RaycastHit2D hit;
-        //Ray ray = new Ray(transform.position, )
+        currentTarget = points[currentTargetIndex].position; // начинаем с первой точки патрулирования
+    }
+    private void FixedUpdate()
+    {
+        if (breaking)
+        {
+            animator.SetBool("IsBreaking", true);
+            if (timer <= timerBreaking)
+            {
+                timer += Time.deltaTime;
+            }
+        }
+        else
+        {
+            timer = 0;
+            animator.SetBool("IsBreaking", false);
+            Patrol();
+        }
+    }
+    private void Chase()
+    {
+
+    }
+    private void Shoot()
+    {
+
     }
     private void Patrol()
     {
-        //Random = new Random(10);
+        transform.position = Vector3.MoveTowards(transform.position, currentTarget, speed * Time.deltaTime);
+        if (Vector3.Distance(transform.position, currentTarget) < 0.1f)
+        {
+            currentTargetIndex = (currentTargetIndex + 1) % points.Length;
+            currentTarget = points[currentTargetIndex].position;
+        }
     }
 }

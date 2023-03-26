@@ -4,12 +4,14 @@ using UnityEngine;
 using UnityEditor.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
+
 
 public class Console : MonoBehaviour
 {
     [SerializeField] GameObject panel;
-    [SerializeField] GameObject inputField;
-    [SerializeField] GameObject help;
+    [SerializeField] TMP_InputField inputField;
+    [SerializeField] GameObject text;
     [SerializeField] GameObject tpPointPrefad;
     [SerializeField] GameObject player;
     [SerializeField] Slider hp;
@@ -33,7 +35,10 @@ public class Console : MonoBehaviour
             if (active == true)
                 Activity(false);
             else
+            {
                 Activity(true);
+                inputField.ActivateInputField();
+            }
         }
     }
 
@@ -82,17 +87,17 @@ public class Console : MonoBehaviour
         if (active1)
         {
             active = true;
-            help.SetActive(true);
-            panel.SetActive(true);
-            inputField.SetActive(true);
+            text.SetActive(true);
+            panel.gameObject.SetActive(true);
+            inputField.gameObject.SetActive(true);
             Time.timeScale = 0f;
         }
         else
         {
             active = false;
-            help.SetActive(false);
-            panel.SetActive(false);
-            inputField.SetActive(false);
+            text.SetActive(false);
+            panel.gameObject.SetActive(false);
+            inputField.gameObject.SetActive(false);
             Time.timeScale = 1f;
         }
     }
