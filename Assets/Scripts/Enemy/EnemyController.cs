@@ -47,13 +47,18 @@ public class EnemyController : MonoBehaviour
             
         }
     }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        isPatroling = false;
+        transform.position = transform.position;
+    }
     private void OnTriggerStay2D(Collider2D collision)
     {
         Debug.Log("Ты вошел в меня");
-        if (collision.name == "Hero")
+        if (collision.tag == "Player")
         {
             Debug.Log("Проверяю игрок ли это");
-            isPatroling = false;
+            
             if (timer <= chasingTime)
                 timer += Time.deltaTime;
             else

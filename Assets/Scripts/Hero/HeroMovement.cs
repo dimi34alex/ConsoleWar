@@ -2,28 +2,36 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class HeroMovement : MonoBehaviour
 {
     [SerializeField] Collider2D collider;
-
+    public TextMeshProUGUI textComp;
     [SerializeField] float speed;
     private Vector3 _input;
     public bool isMoving;
     [SerializeField] float jumpForce;
     [SerializeField] Vector3 checkGroundOffset;
     private bool isGrounded;
+
+    public bool canRead = false;
     public LayerMask groundMask;
 
     //private Rigidbody2D rb;
     [SerializeField] private SpriteRenderer hero_sprite;
 
+    public Console console;
     [SerializeField] Rigidbody2D rb;
     public Animator animator;
 
+    private string name;
+    public bool end = false;
+    public bool visibleText = false;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        textComp.gameObject.SetActive(false);
     }
 
 
@@ -31,21 +39,59 @@ public class HeroMovement : MonoBehaviour
     {
         CheckGroud();
         Move();
-        if (Input.GetKeyDown(KeyCode.Space) && Input.anyKey && isGrounded)
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             Jump();
-            animator.SetBool("IsJumping", false);
             animator.SetBool("IsFalling", true);
+        }
+        if (Input.GetKeyDown(KeyCode.LeftAlt) && visibleText)
+        {
+            textComp.gameObject.SetActive(false);
+            visibleText = false;
+        }
+        else if (Input.GetKeyDown(KeyCode.LeftAlt) && canRead)
+        {
+            if (name == "spawnPlatform" || name == "spawnPlatform(1)")
+            {
+                textComp.gameObject.SetActive(true);
+                textComp.text = "/spawn platform";
+            }
+            else if (name == "password")
+            {
+                textComp.gameObject.SetActive(true);
+                textComp.text = "password: I love pizza";
+            }
+            else if (name == "login")
+            {
+                textComp.gameObject.SetActive(true);
+                textComp.text = "login: Sushi";
+            }
+            else if (name == "commands")
+            {
+                textComp.gameObject.SetActive(true);
+                textComp.text = "/reboot all\n/destroy all\n/stop all";
+            }
+            else if (name == "spawnLift")
+            {
+                textComp.gameObject.SetActive(true);
+                textComp.text = "/spawn lift";
+            }
+            visibleText = true;
+            if (name == "superComp")
+            {
+                end = true;
+            }
         }
     }
 
     private void CheckGroud()
     {
-        float rayLen = 1f;
+        float rayLen = 2f;
         Vector3 rayStartPosition = transform.position + checkGroundOffset;
         RaycastHit2D hit = Physics2D.Raycast(rayStartPosition, Vector3.down, rayLen, groundMask);
-        if (hit.collider != null && hit.collider.tag == "Ground")
+        if (hit.collider != null && (hit.collider.tag == "Ground" || hit.collider.tag == "Platform"))
         {
+            animator.SetBool("IsJumping", false);
             animator.SetBool("IsFalling", false);
             isGrounded = true;
         }
@@ -85,5 +131,20 @@ public class HeroMovement : MonoBehaviour
             animator.SetBool("IsDead", true);
         }
         
+    }
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if(collision.tag == "Comp")
+        {
+            canRead = true;
+            name = collision.name;
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.tag == "Comp")
+        {
+            canRead = false;
+        }
     }
 }

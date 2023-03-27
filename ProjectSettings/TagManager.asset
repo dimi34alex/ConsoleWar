@@ -8,6 +8,9 @@ TagManager:
   - killObject
   - damageObject
   - CanHide
+  - Hide
+  - Comp
+  - Platform
   layers:
   - Default
   - TransparentFX
